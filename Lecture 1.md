@@ -9,5 +9,7 @@
   b. the difference between model and algorithm
   - model: the general structure of the solution to the problem
   - algorithm: the mathematical detail to achieve the goals
-  
-## II. AIM FOR THE SEMESTER
+ 
+## II. PLANS FOR THIS SEMESTER
+1. Take at least four hours a week after class to think over and practice
+2. Spend time enhancing the knowlegde in statistic and machine learning
