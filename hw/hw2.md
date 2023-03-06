@@ -44,6 +44,7 @@ grep 'CDS' 1.gtf | awk 'BEGIIN {size=0;}$1!="IV"{l=$5-$4+1; size+=l}$7=="-"{prin
 ```
 ## output
 size: 7840707
+
 size: 7841004
 
 # 4.寻找 XV 号染色体上长度最长的5条基因，并输出基因 id 及对应的长度。
@@ -52,9 +53,13 @@ grep gene 1.gtf | awk 'BEGIIN {size=0;}$1=="XV"&&$3=="gene"{l=$5-$4+1; size+=l;s
 ```
 ## output
 YOR393W 813121
+
 YOR394W 813616
+
 YOR394C-A 813784
+
 YOR396W 819175
+
 YOR396C-A 819658
 
 # 5.统计1.gtf列数.
