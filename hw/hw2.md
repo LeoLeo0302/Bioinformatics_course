@@ -1,8 +1,8 @@
-#1.列出1.gtf文件中 XI 号染色体上的后 10 个 CDS （按照每个CDS终止位置的基因组坐标进行sort）
+# 1.列出1.gtf文件中 XI 号染色体上的后 10 个 CDS （按照每个CDS终止位置的基因组坐标进行sort）
 ```
 grep 'CDS'  1.gtf | awk '$1=="XI" {print}' | sort -k 5 -n | tail -10
 ```
-##output
+## output
 XI ensembl CDS 631152 632798 . + 0 gene_id "YKR097W"; gene_version "1"; transcript_id "YKR097W"; transcript_version "1"; exon_number "1"; gene_name "PCK1"; gene_source "ensembl"; gene_biotype "protein_coding"; transcript_name "PCK1"; transcript_source "ensembl"; transcript_biotype "protein_coding"; protein_id "YKR097W"; protein_version "1";
 XI ensembl CDS 633029 635179 . - 0 gene_id "YKR098C"; gene_version "1"; transcript_id "YKR098C"; transcript_version "1"; exon_number "1"; gene_name "UBP11"; gene_source "ensembl"; gene_biotype "protein_coding"; transcript_name "UBP11"; transcript_source "ensembl"; transcript_biotype "protein_coding"; protein_id "YKR098C"; protein_version "1";
 XI ensembl CDS 635851 638283 . + 0 gene_id "YKR099W"; gene_version "1"; transcript_id "YKR099W"; transcript_version "1"; exon_number "1"; gene_name "BAS1"; gene_source "ensembl"; gene_biotype "protein_coding"; transcript_name "BAS1"; transcript_source "ensembl"; transcript_biotype "protein_coding"; protein_id "YKR099W"; protein_version "1";
@@ -14,4 +14,90 @@ XI ensembl CDS 656836 657753 . + 0 gene_id "YKR104W"; gene_version "1"; transcri
 XI ensembl CDS 658719 660464 . - 0 gene_id "YKR105C"; gene_version "1"; transcript_id "YKR105C"; transcript_version "1"; exon_number "1"; gene_name "VBA5"; gene_source "ensembl"; gene_biotype "protein_coding"; transcript_name "VBA5"; transcript_source "ensembl"; transcript_biotype "protein_coding"; protein_id "YKR105C"; protein_version "1";
 XI ensembl CDS 661442 663286 . + 0 gene_id "YKR106W"; gene_version "1"; transcript_id "YKR106W"; transcript_version "1"; exon_number "1"; gene_name "GEX2"; gene_source "ensembl"; gene_biotype "protein_coding"; transcript_name "GEX2"; transcript_source "ensembl"; transcript_biotype "protein_coding"; protein_id "YKR106W"; protein_version "1";
 
-#2.
+# 2.统计 IV 号染色体上各类 feature （1.gtf文件的第3列，有些注释文件中还应同时考虑第2列） 的数目，并按升序排列。
+```
+grep -v '^#' 1.gtf | awk '$1=="IV" {print $3}' | sort | uniq -c
+```
+## output
+933 exon
+886 gene
+853 start_codon
+853 stop_codon
+886 transcript
+
+# 3.寻找不在 IV 号染色体上的所有负链上的基因中最长的2条 CDS 序列，输出他们的长度。
+```
+grep 'CDS' 1.gtf | awk 'BEGIIN {size=0;}$1!="IV"{l=$5-$4+1; size+=l}$7=="-"{print"size:",size}' | tail -2
+```
+## output
+size: 7840707
+size: 7841004
+
+# 4.寻找 XV 号染色体上长度最长的5条基因，并输出基因 id 及对应的长度。
+```
+grep gene 1.gtf | awk 'BEGIIN {size=0;}$1=="XV"&&$3=="gene"{l=$5-$4+1; size+=l;split($10,x,";");geneid = x[1];gsub("\"", "", geneid);print geneid,size}' | tail -5
+```
+## output
+YOR393W 813121
+YOR394W 813616
+YOR394C-A 813784
+YOR396W 819175
+YOR396C-A 819658
+
+# 5.统计1.gtf列数.
+```
+awk -F '\t' '{print NF}' 1.gtf 
+#output中只展示前50行结果
+awk -F '\t' '{print NF}' 1.gtf ｜ head -50
+```
+## output
+1
+1
+1
+1
+1
+9
+9
+9
+9
+9
+9
+9
+9
+9
+9
+9
+9
+9
+9
+9
+9
+9
+9
+9
+9
+9
+9
+9
+9
+9
+9
+9
+9
+9
+9
+9
+9
+9
+9
+9
+9
+9
+9
+9
+9
+9
+9
+9
+9
+9
